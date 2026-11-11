@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: leitor-web
+  namespace: simulado-nuvem
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: leitura-pods
+  namespace: simulado-nuvem
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: leitura-pods-binding
+  namespace: simulado-nuvem
+subjects:
+  - kind: ServiceAccount
+    name: leitor-web
+    namespace: simulado-nuvem
+roleRef:
+  kind: Role
+  name: leitura-pods
+  apiGroup: rbac.authorization.k8s.io
